@@ -11,10 +11,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171010132550) do
+ActiveRecord::Schema.define(version: 20171010141847) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "albums", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "artist_id"
+    t.integer  "genre_id"
+    t.integer  "year_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "albums", ["artist_id"], name: "index_albums_on_artist_id", using: :btree
+  add_index "albums", ["genre_id"], name: "index_albums_on_genre_id", using: :btree
+  add_index "albums", ["year_id"], name: "index_albums_on_year_id", using: :btree
 
   create_table "artists", force: :cascade do |t|
     t.string   "name"
@@ -22,4 +35,19 @@ ActiveRecord::Schema.define(version: 20171010132550) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "genres", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "years", force: :cascade do |t|
+    t.string   "year"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_foreign_key "albums", "artists"
+  add_foreign_key "albums", "genres"
+  add_foreign_key "albums", "years"
 end
